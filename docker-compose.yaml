@@ -1,0 +1,20 @@
+services:
+  database:
+    image: 'postgres:latest'
+    ports:
+      - "5432:5432"
+    volumes:
+      - $HOME/docker/volumes/postgres:/var/lib/postgresql
+    environment:
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=docker
+
+  server:
+    build: ./server
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build: ./project3-front-end
+    ports:
+      - "5173:5173"
