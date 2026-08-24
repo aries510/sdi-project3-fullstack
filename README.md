@@ -1,6 +1,6 @@
 # SDI-PROJECT3-FULLSTACK
 
-This project addresses a desire to streamline motorcycle PPE and MSF training for Active Duty units under the DAFI 91-207 standards.
+This project addresses a desire to streamline motorcycle PPE and MSF training for Active Duty units under DAFI 91-207 standards.
 
 ----
 
