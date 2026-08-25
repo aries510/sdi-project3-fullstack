@@ -7,8 +7,14 @@ const knex = require('knex')(require('./knexfile.js')['development'])
 app.use(express.json());
 app.use(cors());
 
-app.get('/', (request, response) => {
-    response.status(200).send('Welcome!')
+app.get('/users', (request, response) => {
+    response.status(200);
+    knex('users')
+        .select('*')
+        .then(users => {
+            var userNames = users.map(user => user.name);
+            response.json(userNames)
+        })
 });
 
 app.listen(PORT, () => {
