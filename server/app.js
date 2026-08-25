@@ -12,8 +12,28 @@ app.get('/users', (request, response) => {
     knex('users')
         .select('*')
         .then(users => {
-            var userNames = users.map(user => user.name);
-            response.json(userNames)
+            var usersList = users.map(user => user);
+            response.json(usersList)
+        })
+});
+
+app.get('/gear', (request, response) => {
+    response.status(200)
+    knex('gear')
+        .select('*')
+        .then(items => {
+            var itemsList = items.map(item => item);
+            response.json(itemsList)
+        })
+});
+
+app.get('/training', (request, response) => {
+    response.status(200)
+    knex('training')
+        .select('*')
+        .then(records => {
+            var recordsList = records.map(record => record)
+            response.json(recordsList)
         })
 });
 
