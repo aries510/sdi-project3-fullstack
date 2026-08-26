@@ -119,6 +119,57 @@ app.get('/training', (request, response) => {
         })
 });
 
+// update an existing training record
+app.put('/training/:id', (request, response) => {
+    const recordId = request.params.id;
+
+    const updatedFields = {
+        course_name: request.body.courseName,
+        completion_date: request.body.completionDate
+    };
+
+    if(request.body.courseName !== undefined) updatedFields.course_name = request.body.courseName;
+    if(request.body.completionDate !== undefined) updatedFields.completion_date = request.body.completionDate;
+
+    knex('training')
+        .where('id', recordId)
+        .update(updatedFields)
+        .then((updatedRecords) => {
+            if(updatedRecords === 0) {
+                return response.status(404).json({ error: 'Record not found' })
+            }
+            response.status(200).json({
+                success: true,
+                message: `Record ID: ${recordId} has been updated.`,
+                data: { id: recordId, ...updatedFields }
+            })
+        })
+        .catch((error) => {
+            response.status(500).json({ error: 'Database error occurred' })
+        })
+});
+
+// delete an existing training record
+app.delete('/training/:id', (request, response) => {
+    const recordId = request.params.id;
+
+    knex('training')
+        .where('id', recordId)
+        .del()
+        .then((deletedRecord) => {
+            if(deletedRecord === 0) {
+                return response.status(404).json({ error: 'Training record not found.'})
+            }
+            response.status(200).json({
+                success: true,
+                message: `Record ID: ${recordId} has been deleted`
+            })
+        })
+        .catch((error) => {
+            response.status(500).json({ error: 'Database error occurred' })
+        })
+});
+
 // login function that looks for the user within the users table in the database
 app.post('/', (request, response) => {
     const { username, password } = request.body;
