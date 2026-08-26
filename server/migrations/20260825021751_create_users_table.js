@@ -6,6 +6,7 @@ exports.up = function(knex) {
   return knex.schema.createTable('users', function(table) {
     table.increments('id').primary();
     table.string('username').notNullable();
+    table.string('password_hash')
     table.string('email').notNullable();
     table.enum('role', ['admin', 'general']).defaultTo('general').notNullable()
   })
