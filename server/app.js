@@ -75,6 +75,24 @@ app.get('/users/:id', (request, response) => {
         })
 });
 
+// GET with username param
+app.get('/users/:username', (request, response) => {
+    const userId = request.params.username;
+
+    knex('users')
+        .where({username})
+        .first()
+        .then((user) => {
+            if(!user) {
+                return response.status(404).json({ error: 'User not found' })
+            }
+            response.json(user)
+        })
+        .catch((error) => {
+            return response.status(500).json({ error: 'Server error occurred.' })
+        })
+});
+
 // shows list of gear stored within database
 app.get('/gear', (request, response) => {
     response.status(200)
@@ -258,8 +276,6 @@ app.post('/login', (request, response) => {
             if(!user) {
                 return response.status(401).json({ error: "Invalid login" });
             }
-            console.log('Password form react:', password)
-            console.log('Hash:', user.password_hash)
             return bcrypt.compare(password, user.password_hash)
                 .then(match => {
                     if(!match) {

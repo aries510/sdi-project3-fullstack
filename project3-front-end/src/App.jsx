@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
+import Home from "./components/Home"
 
 function App() {
   
@@ -27,6 +28,7 @@ useEffect(() => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route path="/home" element={<Home user={user}/>} />
     </Routes>
   )
 }
