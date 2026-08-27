@@ -22,12 +22,12 @@ function Login() {
         })
             .then(response => {
                 if(!response.ok) {
-                    throw console.log('Invalid login credentials.')
+                    throw new Error('Invalid login credentials.')
                 }
                 return response.json();
             })
             .then(login => {
-                if(!login) {
+                if(!login.success) {
                     setError('Invalid login');
                     return
                 }
@@ -38,7 +38,7 @@ function Login() {
             })
             .then((session) => {
                 if (session && session.loggedIn) {
-                    setUser({ username: session.username, id: session.Id });
+                    setUser({ username: session.username, id: session.id });
                     navigate("/home");
                 }
             })
