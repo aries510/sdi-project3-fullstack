@@ -295,7 +295,11 @@ app.post('/login', (request, response) => {
 // creates an entry in the session table
 app.get('/session', (request, response) => {
     if(request.session.userId) {
-        response.json({ loggedIn: true, username: request.session.username })
+        response.json({ 
+            loggedIn: true,
+            username: request.session.username,
+            id: request.session.userId
+        })
     } else {
         response.json({ loggedIn: false })
     }

@@ -7,14 +7,14 @@ function Home({ user }) {
 
     useEffect(() => {
         if(!user) return;
-        fetch(`http://localhost:8080/users/${user}`, {credentials: 'include'})
+        fetch(`http://localhost:8080/users/${user.id}`, {credentials: 'include'})
             .then(response => response.json())
             .then((user) => {
                 setUserInfo(user);
-                fetch(`http://localhost:8080/gear/${user.user_id}`)
+                fetch(`http://localhost:8080/gear/${user.id}`)
                     .then(response => response.json())
                     .then(setGear);
-                fetch(`http://localhost:8080/training/${user.user_id}`)
+                fetch(`http://localhost:8080/training/${user.id}`)
                     .then(response => response.json())
                     .then(setTraining);
             });

@@ -24,7 +24,7 @@ function Login() {
                 if(!response.ok) {
                     throw console.log('Invalid login credentials.')
                 }
-                response.json();
+                return response.json();
             })
             .then(login => {
                 if(!login) {
@@ -32,12 +32,14 @@ function Login() {
                     return
                 }
                 return fetch('http://localhost:8080/session', {
-                    credentials: 'include'
-                })
+                        credentials: 'include'
+                        })
+                            .then(response => response.json())
             })
             .then((session) => {
                 if (session && session.loggedIn) {
-                    setUser({ username: session.username })
+                    setUser({ username: session.username, id: session.Id });
+                    navigate("/home");
                 }
             })
             .catch(error => {
