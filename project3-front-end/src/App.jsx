@@ -15,8 +15,8 @@ useEffect(() => {
     .then(login => {
       if(login.loggedIn) {
         setUser({
-          username: sessionStorage.username,
-          id: session.id
+          username: login.username,
+          id: login.id
         })
       } else {
         setUser(null)
