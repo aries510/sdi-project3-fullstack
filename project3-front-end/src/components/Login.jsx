@@ -12,7 +12,7 @@ function Login() {
         event.preventDefault();
         setError(null);
 
-        fetch('http://localhost:8080/users', {
+        fetch('http://localhost:8080/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -29,7 +29,14 @@ function Login() {
                     setError('Invalid login');
                     return
                 }
-                setUser(login)
+                return fetch('http://localhost:8080/session', {
+                    credentials: 'include'
+                })
+            })
+            .then((session) => {
+                if (session && session.loggedIn) {
+                    setUser({ username: session.username })
+                }
             })
             .catch(error => {
                 console.error(error)
@@ -37,8 +44,8 @@ function Login() {
             })
     };
 
-    const logoutFetch = () => { 
-        fetch('http://localhost:8080/login/logout', {
+    const logout = () => { 
+        fetch('http://localhost:8080/logout', {
         method: 'POST',
         credentials: 'include'
         })
@@ -55,7 +62,14 @@ function Login() {
     if(user) {
         return (
             <>
-                
+                <div>
+                    <h1> Welcome, {user.username} </h1>
+                    <button
+                        onClick={logout}
+                    >
+                        Logout
+                    </button>
+                </div>
             </>
         )
     }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import Login from "./components/Login";
 
 function App() {
   
@@ -9,7 +10,7 @@ useEffect(() => {
   fetch('http://localhost:8080/login/session', {
     credentials: 'include'
   })
-    .then(response => response.json)
+    .then(response => response.json())
     .then(login => {
       if(login.loggedIn) {
         setUser(login.username)
@@ -24,12 +25,10 @@ useEffect(() => {
 
 
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/Home" element={<Home />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/Home" element={<Home />} />
+    </Routes>
   )
 }
 
