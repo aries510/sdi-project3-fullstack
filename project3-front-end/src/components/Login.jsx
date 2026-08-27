@@ -63,20 +63,20 @@ function Login() {
         })
     };
     
-    if(user) {
-        return (
-            <>
-                <div>
-                    <h1> Welcome, {user.username} </h1>
-                    <button
-                        onClick={logout}
-                    >
-                        Logout
-                    </button>
-                </div>
-            </>
-        )
-    }
+    // if(user) {
+    //     return (
+    //         <>
+    //             <div>
+    //                 <h1> Welcome, {user.username} </h1>
+    //                 <button
+    //                     onClick={logout}
+    //                 >
+    //                     Logout
+    //                 </button>
+    //             </div>
+    //         </>
+    //     )
+    // }
 
     return (
         <>
