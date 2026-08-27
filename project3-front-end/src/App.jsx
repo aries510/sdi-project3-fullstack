@@ -14,7 +14,10 @@ useEffect(() => {
     .then(response => response.json())
     .then(login => {
       if(login.loggedIn) {
-        setUser(login.username)
+        setUser({
+          username: sessionStorage.username,
+          id: session.id
+        })
       } else {
         setUser(null)
       }
@@ -27,7 +30,7 @@ useEffect(() => {
 
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<Login setUser={setUser}/>} />
       <Route path="/home" element={<Home user={user}/>} />
     </Routes>
   )

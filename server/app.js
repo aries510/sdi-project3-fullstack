@@ -104,13 +104,13 @@ app.get('/gear', (request, response) => {
         })
 });
 
-// show single gear with id param
+// show gear by user_id param
 app.get('/gear/:id', (request, response) => {
-    const gearId = request.params.id;
+    const userId = request.params.id;
 
     knex('gear')
-        .where('id', gearId)
-        .first()
+        .where('user_id', userId)
+        .select('*')
         .then((gear) => {
             if(!gear) {
                 return response.status(404).json({ error: 'Gear not found' })
@@ -156,12 +156,13 @@ app.get('/training', (request, response) => {
         })
 });
 
+// retrieve training records by userid
 app.get('/training/:id', (request, response) => {
-    const recordId = request.params.id;
+    const userId = request.params.id;
 
     knex('training')
-        .where('id', recordId)
-        .first()
+        .where('user_id', userId)
+        .select('*')
         .then((record) => {
             if(!record) {
                 return response.status(500).json({ error: 'Record not found.' })

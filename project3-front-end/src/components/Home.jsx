@@ -29,7 +29,7 @@ function Home({ user }) {
     return(
         <>
             <div>
-                <h1>Welcome, {user}</h1>
+                <h1>Welcome, {user.username}</h1>
 
                 <div>
                     <h2>{user.username}'s Dashboard</h2>
