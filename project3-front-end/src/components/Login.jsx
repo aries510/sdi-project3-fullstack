@@ -20,7 +20,7 @@ function Login() {
         })
             .then(response => {
                 if(!response.ok) {
-                    throw error('Invalid login credentials.')
+                    throw console.log('Invalid login credentials.')
                 }
                 response.json();
             })
@@ -39,7 +39,7 @@ function Login() {
                 }
             })
             .catch(error => {
-                console.error(error)
+                console.log(error)
                 setError("Server error")
             })
     };
@@ -95,9 +95,9 @@ function Login() {
                     <input
                         type="password"
                         id="password"
-                        value={{password}}
+                        value={password}
                         onChange={(event) => setPassword(event.target.value)}
-                        placeholder="Password"
+                        placeholder=""
                         required
                     />
                 </div>

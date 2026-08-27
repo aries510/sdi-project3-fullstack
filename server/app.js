@@ -4,24 +4,38 @@ const PORT = 8080;
 const cors = require('cors');
 const knex = require('knex')(require('./knexfile.js')['development'])
 const session = require('express-session');
+const bcrypt = require('bcrypt');
 const PgSession = require('connect-pg-simple')(session);
+const { Pool } = require('pg');
+const pgPool = new Pool({
+    host: 'localhost',
+    port: 5432,
+    user: 'postgres',
+    password: 'docker',
+    database: 'motorcycle_gear'
+});
 
 
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
 app.use(
     session({
         store: new PgSession({
-            pool: knex.client.pool,
+            pool: pgPool,
             tableName: 'session'
         }),
         secret: 'supersecretpassword',
         resave: false,
+        saveUninitialized: false,
         cookie: {
-            maxAge: 180,
+            maxAge: 1800000000,
             httpOnly: true,
-            secure: false
+            secure: false,
+            sameSite: 'lax'
         }
     })
 );
@@ -79,7 +93,7 @@ app.get('/gear/:id', (request, response) => {
     knex('gear')
         .where('id', gearId)
         .first()
-        then((gear) => {
+        .then((gear) => {
             if(!gear) {
                 return response.status(404).json({ error: 'Gear not found' })
             }
@@ -244,6 +258,8 @@ app.post('/login', (request, response) => {
             if(!user) {
                 return response.status(401).json({ error: "Invalid login" });
             }
+            console.log('Password form react:', password)
+            console.log('Hash:', user.password_hash)
             return bcrypt.compare(password, user.password_hash)
                 .then(match => {
                     if(!match) {

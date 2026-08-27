@@ -1,4 +1,4 @@
 const bcrypt = require('bcrypt');
 
-bcrypt.hash("password", 10)
+bcrypt.hash("honda", 10)
     .then(console.log)

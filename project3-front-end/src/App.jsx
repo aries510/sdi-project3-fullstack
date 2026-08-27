@@ -7,7 +7,7 @@ function App() {
 const [user, setUser] = useState(null);
 
 useEffect(() => {
-  fetch('http://localhost:8080/login/session', {
+  fetch('http://localhost:8080/session', {
     credentials: 'include'
   })
     .then(response => response.json())
@@ -19,7 +19,7 @@ useEffect(() => {
       }
     })
     .catch(error => {
-      console.error(error)
+      console.log(error)
     })
 }, []);
 
@@ -27,7 +27,6 @@ useEffect(() => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/Home" element={<Home />} />
     </Routes>
   )
 }
