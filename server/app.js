@@ -6,6 +6,8 @@ const knex = require('knex')(require('./knexfile.js')['development'])
 const session = require('express-session');
 const PgSession = require('connect-pg-simple')(session);
 
+
+
 app.use(express.json());
 app.use(cors());
 app.use(
@@ -24,6 +26,10 @@ app.use(
     })
 );
 
+app.get('/', (request, response) => {
+    response.status(200).send("Welcome to the API home page.")
+})
+
 // shows list of users within database
 app.get('/users', (request, response) => {
     response.status(200);
@@ -35,6 +41,26 @@ app.get('/users', (request, response) => {
         })
 });
 
+// shows specific user by id
+app.get('/users/:id', (request, response) => {
+    const userId = request.params.id;
+
+    knex('users')
+        .where('id', userId)
+        .first()
+        .then((user) => {
+            if(!user) {
+                return response.status(404).json({ error: 'User not found' })
+            }
+            response.status(200).json(user)
+        })
+        .catch((error) => {
+            response.status(500).json({
+                error: 'Server error occurred.'
+            })
+        })
+});
+
 // shows list of gear stored within database
 app.get('/gear', (request, response) => {
     response.status(200)
@@ -43,6 +69,26 @@ app.get('/gear', (request, response) => {
         .then(items => {
             var itemsList = items.map(item => item);
             response.json(itemsList)
+        })
+});
+
+// show single gear with id param
+app.get('/gear/:id', (request, response) => {
+    const gearId = request.params.id;
+
+    knex('gear')
+        .where('id', gearId)
+        .first()
+        then((gear) => {
+            if(!gear) {
+                return response.status(404).json({ error: 'Gear not found' })
+            }
+            response.status(200).json(gear)
+        })
+        .catch((error) => {
+            response.status(500).json({
+                error: "Server error occurred"
+            })
         })
 });
 
@@ -75,6 +121,23 @@ app.get('/training', (request, response) => {
         .then(records => {
             var trainingList = records.map(record => record);
             response.json(trainingList)
+        })
+});
+
+app.get('/training/:id', (request, response) => {
+    const recordId = request.params.id;
+
+    knex('training')
+        .where('id', recordId)
+        .first()
+        .then((record) => {
+            if(!record) {
+                return response.status(500).json({ error: 'Record not found.' })
+            }
+            response.status(200).json(record)
+        })
+        .catch((error) => {
+            response.status(500).json({ error: 'Server error occurred.' })
         })
 });
 
@@ -171,7 +234,7 @@ app.delete('/training/:id', (request, response) => {
 });
 
 // login function that looks for the user within the users table in the database
-app.post('/', (request, response) => {
+app.post('/login', (request, response) => {
     const { username, password } = request.body;
 
     knex('users')

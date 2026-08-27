@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   
@@ -24,9 +25,10 @@ useEffect(() => {
 
   return (
     <>
-      <div>
-        <p>Hello</p>
-      </div>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/Home" element={<Home />} />
+      </Routes>
     </>
   )
 }
