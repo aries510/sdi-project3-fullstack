@@ -34,6 +34,6 @@ useEffect(() => {
       <Route path="/home" element={user ? <Home user={user}/> : <Navigate to="/" />} />
     </Routes>
   )
-}
+};
 
-export default App
+export default App;

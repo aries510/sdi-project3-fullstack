@@ -8,7 +8,10 @@ function Home({ user }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(!user) return;
+        if(!user) {
+            navigate('/');
+            return
+        };
         fetch(`http://localhost:8080/users/${user.id}`, {credentials: 'include'})
             .then(response => response.json())
             .then((user) => {
@@ -22,22 +25,6 @@ function Home({ user }) {
             });
     }, [user]);
 
-    useEffect(() => {
-        fetch('http://localhost:8080/session', { credentials: 'include' })
-            .then(response => response.json())
-            .then(session => {
-                if(!session.loggedIn) {
-                    navigate('/')
-                }
-            })
-    }, []);
-    
-    if(!user) {
-            return (
-                <h2>Please log in to view this page.</h2>
-            )
-        };
-
     const logout = () => { 
         fetch('http://localhost:8080/logout', {
             method: 'POST',
@@ -48,13 +35,13 @@ function Home({ user }) {
                 navigate('/')
             })
             .catch((error) => {
-                throw error("Logout failed:", error)
+                throw new Error("Logout failed:", error)
             })
     };
 
     return(
         <>
-            <div>
+            <header>
                 <h1>Welcome, {user.username}</h1>
 
                 <div>
@@ -66,7 +53,12 @@ function Home({ user }) {
                             <p>Email: {userInfo.email}</p>
                         </div>
                     )}
+                    <button onClick={logout}> Logout </button>
                 </div>
+            </header>
+
+            <div>
+                
 
                 <div>
                     <h2>Your Gear</h2>
