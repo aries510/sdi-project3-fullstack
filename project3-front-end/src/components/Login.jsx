@@ -51,33 +51,17 @@ function Login({ setUser} ) {
 
     const logout = () => { 
         fetch('http://localhost:8080/logout', {
-        method: 'POST',
-        credentials: 'include'
+            method: 'POST',
+            credentials: 'include'
         })
-        .then(() => {
-            setUser(null);
-            setUsername('');
-            setPassword('');
-        })
-        .catch((error) => {
-            throw error("Logout failed:", error)
-        })
+            .then(() => {
+                setUser(null);
+                navigate('/')
+            })
+            .catch((error) => {
+                throw error("Logout failed:", error)
+            })
     };
-    
-    // if(user) {
-    //     return (
-    //         <>
-    //             <div>
-    //                 <h1> Welcome, {user.username} </h1>
-    //                 <button
-    //                     onClick={logout}
-    //                 >
-    //                     Logout
-    //                 </button>
-    //             </div>
-    //         </>
-    //     )
-    // }
 
     return (
         <>

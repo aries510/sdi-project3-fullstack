@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login";
 import Home from "./components/Home"
 
@@ -31,7 +31,7 @@ useEffect(() => {
   return (
     <Routes>
       <Route path="/" element={<Login setUser={setUser}/>} />
-      <Route path="/home" element={<Home user={user}/>} />
+      <Route path="/home" element={user ? <Home user={user}/> : <Navigate to="/" />} />
     </Routes>
   )
 }

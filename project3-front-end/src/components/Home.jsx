@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Home({ user }) {
     const [gear, setGear] = useState([]);
     const [training, setTraining] = useState([]);
     const [userInfo, setUserInfo] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if(!user) return;
@@ -19,6 +21,16 @@ function Home({ user }) {
                     .then(setTraining);
             });
     }, [user]);
+
+    useEffect(() => {
+        fetch('http://localhost:8080/session', { credentials: 'include' })
+            .then(response => response.json())
+            .then(session => {
+                if(!session.loggedIn) {
+                    navigate('/')
+                }
+            })
+    }, []);
     
     if(!user) {
             return (
