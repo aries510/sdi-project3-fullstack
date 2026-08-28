@@ -65,7 +65,7 @@ function Home({ user }) {
                 brand: newGear.brand,
                 manufactured_date: newGear.manufactured_date || null,
                 purchased_date: newGear.purchased_date,
-                crashed: 'false'
+                crashed: false
             })
         })
             .then(response => response.json())
