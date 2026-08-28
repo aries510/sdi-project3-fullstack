@@ -6,6 +6,7 @@ import Home from "./components/Home"
 function App() {
   
 const [user, setUser] = useState(null);
+const [loading, setLoading] = useState(true);
 
 useEffect(() => {
   fetch('http://localhost:8080/session', {
@@ -21,13 +22,16 @@ useEffect(() => {
       } else {
         setUser(null)
       }
+      setLoading(false)
     })
     .catch(error => {
       console.log(error)
     })
 }, []);
 
-
+if(loading){
+  return <h2>Loading record...</h2>
+}
   return (
     <Routes>
       <Route path="/" element={<Login setUser={setUser}/>} />
