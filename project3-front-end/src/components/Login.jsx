@@ -49,20 +49,6 @@ function Login({ setUser} ) {
             })
     };
 
-    const logout = () => { 
-        fetch('http://localhost:8080/logout', {
-            method: 'POST',
-            credentials: 'include'
-        })
-            .then(() => {
-                setUser(null);
-                navigate('/')
-            })
-            .catch((error) => {
-                throw error("Logout failed:", error)
-            })
-    };
-
     return (
         <>
             <form
