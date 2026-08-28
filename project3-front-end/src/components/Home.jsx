@@ -223,7 +223,7 @@ function Home({ user }) {
                 </div>
             )}
 
-            {editingGear !== null && (
+            {editingGear !== null && editingGear !== undefined && (
                 <div className="modal-overlay">
                     <div className="modal">
                         <h2>Edit Gear</h2>
