@@ -9,6 +9,10 @@ function Login({ setUser} ) {
     const [error, setError] = useState(null);
     // const [user, setUser] = useState(null);
     const navigate = useNavigate();
+    const [isCreatingAccount, setIsCreatingAccount] = useState(false);
+    const [newUsername, setNewUsername] = useState('');
+    const [newEmail, setNewEmail] = useState('');
+    const [newPassword, setNewPassword] = useState('');
 
 
     const handleLogin = (event) => {
@@ -49,6 +53,31 @@ function Login({ setUser} ) {
             })
     };
 
+    const handleCreateAccount = (event) => {
+        event.preventDefault();
+        fetch('http://localhost:8080/users', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+                username: newUsername,
+                email: newEmail,
+                password: newPassword
+            })
+        })
+            .then(response => {
+                if(!response.ok) throw new Error('Signup failed');
+                return response.json()
+            })
+            .then((createdUser) => {
+                setUser(createdUser)
+                navigate('/home')
+            })
+            .catch((error) => {
+                alert('Error creating account')
+            })
+    };
+
     return (
         <>
             <form
@@ -82,6 +111,44 @@ function Login({ setUser} ) {
                     Log In
                 </button>
             </form>
+            <div>
+                <button onClick={() => setIsCreatingAccount(true)}>Create an Account</button>
+            </div>
+
+            {isCreatingAccount && (
+                <form onSubmit={handleCreateAccount}>
+                    <h2>Create Account</h2>
+
+                    <label>Username</label>
+                    <input
+                        type="text"
+                        value={newUsername}
+                        onChange={(event) => setNewUsername(event.target.value)}
+                        required
+                    />
+
+                    
+
+                    <label>Email</label>
+                    <input
+                        type="text"
+                        value={newEmail}
+                        onChange={(event) => setNewEmail(event.target.value)}
+                        required
+                    />
+
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        value={newPassword}
+                        onChange={(event) => setNewPassword(event.target.value)}
+                        required
+                    />
+
+                    <button type="submit">Submit</button>
+                    <button onClick={() => setIsCreatingAccount(false)}>Cancel</button>
+                </form>
+            )}
         </>
     )
 

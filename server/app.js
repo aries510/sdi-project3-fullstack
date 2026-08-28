@@ -75,6 +75,23 @@ app.get('/users/:id', (request, response) => {
         })
 });
 
+app.post('/users', (request, response) => {
+    const { username, email, password } = request.body;
+
+    bcrypt.hash(password, 10)
+        .then(hashedPassword => {
+            return knex('users')
+                    .insert({
+                        username,
+                        email,
+                        password_hashed: hashedPassword
+                    })
+                    .returning([ 'id', 'username', 'email' ])
+        })
+        .then(newUser => response.json(newUser[0]))
+        .catch((error) => response.status(500).json({ error: "Error creating user" }))
+});
+
 // GET with username param
 // app.get('/users/:username', (request, response) => {
 //     const userId = request.params.username;
@@ -120,9 +137,12 @@ app.get('/gear/:id', (request, response) => {
         .where('user_id', userId)
         .select('*')
         .then((gear) => {
-            if(!gear) {
-                return response.status(404).json({ error: 'Gear not found' })
-            }
+            const fixedGear = gear.map(item => ({
+                ...item,
+                crashed: item.crashed === null || item.crashed === undefined
+                    ? false
+                    : item.crashed
+            }))
             response.status(200).json(gear)
         })
         .catch((error) => {
@@ -292,7 +312,7 @@ app.post('/login', (request, response) => {
                     }
                     request.session.userId = user.id;
                     request.session.username = user.username;
-                    response.json({ success: true });
+                    response.json({ success: true, user });
                 })
         })
         .catch(error => {

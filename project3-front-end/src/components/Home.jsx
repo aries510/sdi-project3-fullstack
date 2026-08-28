@@ -13,7 +13,7 @@ function Home({ user }) {
         purchased_date: '',
         crashed: false
     });
-    const [editingGear, setEditingGear] = useState(null);
+    // const [editingGear, setEditingGear] = useState(null);
     const [training, setTraining] = useState([]);
     const [userInfo, setUserInfo] = useState(null);
     const navigate = useNavigate();
@@ -86,30 +86,30 @@ function Home({ user }) {
             .catch((error) => console.log("Error adding gear:", error))
     };
 
-    const handleUpdateGear = () => {
-        if(!editingGear.purchased_date) {
-            alert("Purchased date is required.")
-            return
-        }
-        fetch(`http://localhost:8080/gear/${editingGear.id}`, {
-            method: 'PUT',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                manufactured_date: editingGear.manufactured_date || null,
-                purchased_date: editingGear.purchased_date,
-                crashed: editingGear.crashed
-            })
-        })
-            .then(response => response.json())
-            .then(() => {
-                fetch(`http://localhost:8080/gear/${user.id}`)
-                    .then(response => response.json())
-                    .then(setGear)
-                setEditingGear(null)
-            })
-            .catch((error) => console.log("Error updating gear:", error))
-    };
+    // const handleUpdateGear = () => {
+    //     if(!editingGear.purchased_date) {
+    //         alert("Purchased date is required.")
+    //         return
+    //     }
+    //     fetch(`http://localhost:8080/gear/${editingGear.id}`, {
+    //         method: 'PUT',
+    //         credentials: 'include',
+    //         headers: { 'Content-Type': 'application/json'},
+    //         body: JSON.stringify({
+    //             manufactured_date: editingGear.manufactured_date || null,
+    //             purchased_date: editingGear.purchased_date,
+    //             crashed: editingGear.crashed
+    //         })
+    //     })
+    //         .then(response => response.json())
+    //         .then(() => {
+    //             fetch(`http://localhost:8080/gear/${user.id}`)
+    //                 .then(response => response.json())
+    //                 .then(setGear)
+    //             setEditingGear(null)
+    //         })
+    //         .catch((error) => console.log("Error updating gear:", error))
+    // };
 
     return(
         <>
@@ -223,7 +223,7 @@ function Home({ user }) {
                 </div>
             )}
 
-            {editingGear !== null && editingGear !== undefined && (
+            {/* {editingGear !== null && editingGear !== undefined && (
                 <div className="modal-overlay">
                     <div className="modal">
                         <h2>Edit Gear</h2>
@@ -279,7 +279,7 @@ function Home({ user }) {
                     </div>
 
                 </div>
-            )}
+            )} */}
         </>
     )
 };

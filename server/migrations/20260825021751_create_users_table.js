@@ -10,7 +10,7 @@ exports.up = function(knex) {
     table.string('first_name');
     table.string('last_name');
     table.string('email').notNullable();
-    table.enum('role', ['admin', 'general']).defaultTo('general').notNullable()
+    table.enum('role', ['admin', 'general']).defaultTo('general')
   })
 };
 
