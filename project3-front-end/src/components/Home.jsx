@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 function Home({ user }) {
     const [gear, setGear] = useState([]);
     const [showAddGearModal, setShowAddGearModal] = useState(false);
@@ -9,9 +10,9 @@ function Home({ user }) {
         category: '',
         brand: '',
         manufactured_date: '',
-        purchased_date: ''
+        purchased_date: '',
+        crashed: false
     });
-    const [showEditingGearModal, setShowEditingGearModal] = useState(false)
     const [editingGear, setEditingGear] = useState(null);
     const [training, setTraining] = useState([]);
     const [userInfo, setUserInfo] = useState(null);
@@ -63,7 +64,8 @@ function Home({ user }) {
                 category: newGear.category,
                 brand: newGear.brand,
                 manufactured_date: newGear.manufactured_date || null,
-                purchased_date: newGear.purchased_date
+                purchased_date: newGear.purchased_date,
+                crashed: 'false'
             })
         })
             .then(response => response.json())
@@ -76,7 +78,8 @@ function Home({ user }) {
                     category: '',
                     brand: '',
                     manufactured_date: '',
-                    purchased_date: ''
+                    purchased_date: '',
+                    crashed: false
                 });
                 setShowAddGearModal(false);
             })
@@ -220,7 +223,7 @@ function Home({ user }) {
                 </div>
             )}
 
-            {editingGear && (
+            {editingGear !== null && (
                 <div className="modal-overlay">
                     <div className="modal">
                         <h2>Edit Gear</h2>
@@ -252,7 +255,11 @@ function Home({ user }) {
 
                         <label>Crashed:</label>
                         <select
-                            value={editingGear.crashed ? "true" : "false"}
+                            value={
+                                editingGear.crashed === true ? "true" :
+                                editingGear.crashed === false ? "false" :
+                                "false"
+                            }
                             onChange={(event) => 
                                 setEditingGear({
                                     ...editingGear,

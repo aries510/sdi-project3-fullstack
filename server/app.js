@@ -104,6 +104,14 @@ app.get('/gear', (request, response) => {
         })
 });
 
+app.post('/gear', (request, response) => {
+    knex('gear')
+        .insert(request.body)
+        .returning('*')
+        .then(newItem => response.json(newItem))
+        .catch((error) => response.status(500).json({ error: 'Database error occurred' }))
+});
+
 // show gear by user_id param
 app.get('/gear/:id', (request, response) => {
     const userId = request.params.id;
